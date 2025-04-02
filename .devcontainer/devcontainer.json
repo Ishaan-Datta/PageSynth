@@ -1,0 +1,24 @@
+{
+    "name": "ML Dev Container (GPU)",
+    "remoteUser": "root",
+    "image": "jupyter-test:latest",
+    "customizations":{
+        "settings": {
+            "terminal.integrated.shell.linux": "bash"
+        }
+    },
+    "workspaceFolder": "/home/user/workspace",
+    "workspaceMount": "source=.,target=/home/user/workspace,type=bind,consistency=cached",
+    "runArgs": [
+        "--net=host",
+        "-it",
+        "--rm",
+        "--runtime=nvidia",
+        "--gpus=all",
+        "--env=NVIDIA_DRIVER_CAPABILITIES=video,compute,utility",
+        "--ipc=host",
+        "--ulimit=memlock=-1",
+        "--ulimit=stack=67108864"
+    ],
+    "postStartCommand": "nohup bash -c 'jupyter notebook --allow-root --no-browser --ip=0.0.0.0 --port=8888 --NotebookApp.token='' --NotebookApp.password='' --ServerApp.root_dir=/home/user/workspace > /home/user/workspace/jupyter.log 2>&1 &'"
+}
